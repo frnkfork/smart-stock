@@ -1,63 +1,63 @@
-# SmartStock Pro: Enterprise SaaS Cloud Logistics & AI Analytics
+# SmartStock Pro 📦
+### Cloud Logistics & Predictive Analysis SaaS
 
-**Plataforma SaaS de grado industrial para la gestión logística avanzada, diseñada para optimizar la cadena de suministro mayorista mediante arquitectura cloud-native, resiliencia total y personalización de marca dinámica.**
+> Optimizando la cadena de suministro mayorista mediante inteligencia predictiva y arquitectura cloud-native.
 
----
+![Next.js](https://img.shields.io/badge/Next.js-15-black?style=flat-square&logo=next.js)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=flat-square&logo=typescript)
+![Supabase](https://img.shields.io/badge/Supabase-Database-emerald?style=flat-square&logo=supabase)
+![Tailwind](https://img.shields.io/badge/Tailwind-CSS-38B2AC?style=flat-square&logo=tailwind-css)
 
-## 🏛️ Business Vision (The SaaS Transformation)
-
-SmartStock Pro ha evolucionado de una herramienta de gestión local a una plataforma **SaaS Multi-inquilino** completa.
-- **Personalización Dinámica**: Cada empresa define su propia identidad (Nombre, Logo, Moneda) y reglas de negocio (Umbrales de stock personalizados).
-- **Inteligencia Financiera**: Motor de análisis en tiempo real que proyecta la inversión necesaria basada en velocidades de consumo históricas.
-- **Seguridad Enterprise**: Aislamiento total de datos mediante políticas de Row Level Security (RLS) en PostgreSQL/Supabase.
-
-## 🚀 Innovaciones de Arquitectura Senior
-
-### 🛡️ Resiliencia y Robusto Control de Errores
-Hemos implementado un **Global Error Boundary** que blinda la aplicación contra fallos de red o errores de lógica. El sistema detecta desconexiones de Supabase y ofrece una interfaz de recuperación intuitiva, garantizando que el usuario nunca pierda el hilo operativo de su negocio.
-
-### 🧠 Motor Logístico Desacoplado (InventoryEngine)
-La inteligencia de negocio se ha extraído a una capa de servicios pura. 
-- **Parametrización Dinámica**: Los algoritmos de Alerta Crítica y Reorden ya no son estáticos; responden a los multiplicadores definidos en el perfil de negocio SaaS.
-- **Predictive Forecast**: Análisis de ventanas de consumo para predecir agotamientos con precisión matemática.
-
-### 📋 Validación Industrial (Zod + React Hook Form)
-Toda la entrada de datos, desde la edición rápida de stock hasta la configuración de identidad empresarial, está validada por esquemas de **Zod**. Esto garantiza una base de datos limpia y previene errores técnicos derivados de entradas humanas inválidas.
+SmartStock Pro es un ecosistema diseñado para resolver el problema del **capital inmovilizado** en distribuidoras mayoristas (como el caso real de 'Carmencita'). La plataforma no solo gestiona el inventario, sino que utiliza análisis de autonomía de stock para transformar datos en decisiones operativas, ayudando a liberar flujo de caja y prevenir quiebres de stock.
 
 ---
 
-## 🛠️ Stack Tecnológico Justificado
+## 🧠 Core & Business Logic
 
-- **Next.js 15 (App Router)**: Arquitectura de componentes Server/Client optimizada para SEO y rendimiento.
-- **Supabase Cloud Stack**: Backend-as-a-Service para Auth, DB y RLS.
-- **Zustand (Persistent SaaS State)**: Gestión de estado global con sincronización asíncrona y persistencia híbrida.
-- **Slate & Zinc Aesthetics**: Diseño minimalista premium que prioriza la legibilidad de métricas financieras.
+### Inventory Engine (Predictive Analysis)
+A diferencia de un CRUD estándar, el núcleo de la aplicación reside en un `InventoryEngine` desacoplado. He implementado lógica funcional pura para calcular la salud del inventario en tiempo real:
 
----
+*   **Detección de Quiebre Inminente**: El sistema identifica productos cuyo stock cae por debajo del 40% del punto de reorden definido.
+*   **Gestión de Excedentes**: Identificación dinámica de sobre-stock (150% del nivel óptimo), alertando sobre productos que están drenando liquidez de forma innecesaria.
+*   **Reposición Óptima**: Algoritmo que sugiere cantidades exactas de pedido basadas en el *Target Stock* pactado, evitando excesos de almacenamiento.
 
-## 🏗️ Guía de Implementación Cloud
-
-1. **Infraestructura SQL**: Ejecutar el script `smartstock_pro_master.sql` en el SQL Editor de Supabase. Este script unificado crea tablas, perfiles, políticas RLS y los disparadores de bienvenida para nuevos usuarios.
-2. **Configuración de Entorno**:
-   ```env
-   NEXT_PUBLIC_SUPABASE_URL=...
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=...
-   ```
-3. **Despliegue Operativo**: 
-   `npm install && npm run dev`
+### Asistente Operativo con Feedback por Voz
+Utilizando la **Web Speech API**, el sistema proporciona notificaciones auditivas automáticas para incidencias críticas. Esto permite que el personal de almacén reciba alertas de reabastecimiento inmediato sin necesidad de interactuar físicamente con la plataforma en momentos de alta operatividad.
 
 ---
 
-## 🏆 Decisiones de Diseño y Portafolio
+## 🏗️ Arquitectura y Persistencia
 
-### 1. Repository Pattern & Service Layer
-Hemos encapsulado la persistencia en `storageService.ts`, permitiendo que la aplicación sea agnóstica a la base de datos subyacente y facilitando el testing de alto nivel.
+### Patrón Repository en `StorageService`
+Para manejar los datos, implementé una capa de acceso a datos (`StorageService`) que abstrae la complejidad de la red. Esto permite:
+*   **Persistencia Híbrida**: El sistema prioriza la sincronización con **Supabase**, pero implementa un *local fallback* automático para mantener la app operativa en entornos con conectividad inestable.
+*   **Escalabilidad SaaS**: Uso de **Row Level Security (RLS)** en el backend para garantizar que la data de cada cliente mayorista esté aislada y segura.
 
-### 2. UX SaaS Optimizada
-Implementamos **Optimistic Updates** en la configuración del negocio. El usuario percibe una interfaz instantánea mientras la sincronización con la nube ocurre de forma resiliente en segundo plano.
-
-### 3. Accesibilidad y Soporte Operativo
-La integración de la **Web Speech API** permite a los operarios de almacén recibir alertas críticas manos libres, optimizando el tiempo de respuesta en entornos logísticos de alta presión.
+### Lógica 'Stateless'
+Toda la computación logística se ha movido fuera de los componentes de React hacia el motor interno. Esto garantiza que el código sea predecible, fácil de testear (`Unit Testing`) y extremadamente rápido, dejando a la UI solo la responsabilidad de presentación.
 
 ---
-**SmartStock Pro: El cerebro logístico diseñado para escalar, auditar y dominar la cadena de suministro moderna.**
+
+## 🛠️ Tech Stack
+
+*   **Next.js 15 (App Router)**: Elegido por su velocidad en el renderizado distribuido y manejo de rutas.
+*   **TypeScript**: Clave para evitar errores de tipo en cálculos matemáticos de stock sensible.
+*   **Zustand**: Gestión de estado global atómica para un Dashboard interactivo sin la sobrecarga de Redux.
+*   **Tailwind CSS**: Diseño atómico y responsivo enfocado en la usabilidad industrial.
+*   **Supabase / PostgreSQL**: Engine robusto para el manejo de auditoría y multitenancy.
+
+---
+
+## 🚀 Setup
+
+1.  Instala las dependencias: `npm install`
+2.  Configura tu `.env.local` con las claves de Supabase:
+    ```env
+    NEXT_PUBLIC_SUPABASE_URL=tu_url
+    NEXT_PUBLIC_SUPABASE_ANON_KEY=tu_anon_key
+    ```
+3.  Corre el servidor de desarrollo: `npm run dev`
+
+---
+
+*Desarrollado con enfoque en resultados operativos y escalabilidad técnica.*
