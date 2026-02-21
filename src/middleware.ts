@@ -2,10 +2,9 @@ import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 /**
- * Proxy de protección de rutas para SmartStock Pro Cloud usando @supabase/ssr.
- * (Anteriormente middleware.ts, actualizado para Next.js 16)
+ * Middleware de protección de rutas para SmartStock Pro Cloud usando @supabase/ssr.
  */
-export async function proxy(request: NextRequest) {
+export async function middleware(request: NextRequest) {
     let response = NextResponse.next({
         request: {
             headers: request.headers,
