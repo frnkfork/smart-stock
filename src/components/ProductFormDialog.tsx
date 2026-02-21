@@ -47,7 +47,7 @@ export function ProductFormDialog({
         reset,
         formState: { errors },
     } = useForm<ProductFormValues>({
-        resolver: zodResolver(ProductSchema),
+        resolver: zodResolver(ProductSchema) as any,
         defaultValues: product ? {
             name: product.name,
             category: product.category,
@@ -100,7 +100,7 @@ export function ProductFormDialog({
                 <DialogHeader>
                     <DialogTitle>{product ? "Editar Producto" : "Nuevo Producto"}</DialogTitle>
                 </DialogHeader>
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 py-2">
+                <form onSubmit={handleSubmit(onSubmit as any)} className="space-y-4 py-2">
                     <div className="space-y-2">
                         <Label htmlFor="product-name">Nombre</Label>
                         <Input

@@ -45,7 +45,7 @@ export function EditStockDialog({
     setValue,
     formState: { errors },
   } = useForm<StockFormValues>({
-    resolver: zodResolver(StockSchema),
+    resolver: zodResolver(StockSchema) as any,
     defaultValues: { stock: product?.stock || 0 },
   });
 
